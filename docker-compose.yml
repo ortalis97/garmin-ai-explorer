@@ -1,0 +1,110 @@
+version: '3.8'
+
+x-airflow-common: &airflow-common
+  image: apache/airflow:2.8.1-python3.11
+  environment: &airflow-common-env
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${POSTGRES_USER:-garmin}:${POSTGRES_PASSWORD:-garmin_secret}@postgres:5432/airflow
+    AIRFLOW__CORE__FERNET_KEY: ''
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'false'
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    AIRFLOW__SCHEDULER__MIN_FILE_PROCESS_INTERVAL: 30
+    # Garmin credentials (passed to DAGs)
+    GARMIN_EMAIL: ${GARMIN_EMAIL}
+    GARMIN_PASSWORD: ${GARMIN_PASSWORD}
+    # PostgreSQL connection for Garmin data
+    POSTGRES_HOST: postgres
+    POSTGRES_PORT: '5432'
+    POSTGRES_DB: ${POSTGRES_DB:-garmin_data}
+    POSTGRES_USER: ${POSTGRES_USER:-garmin}
+    POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-garmin_secret}
+  volumes:
+    - ./dags:/opt/airflow/dags
+    - ./src:/opt/airflow/src
+    - ./logs:/opt/airflow/logs
+    - airflow_garmin_session:/root/.garmin_session
+  depends_on:
+    postgres:
+      condition: service_healthy
+  networks:
+    - garmin_network
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: garmin_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-garmin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-garmin_secret}
+      POSTGRES_DB: ${POSTGRES_DB:-garmin_data}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - garmin_pgdata:/var/lib/postgresql/data
+      - ./init-airflow-db.sql:/docker-entrypoint-initdb.d/init-airflow-db.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-garmin} -d ${POSTGRES_DB:-garmin_data}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - garmin_network
+
+  airflow-init:
+    <<: *airflow-common
+    container_name: garmin_airflow_init
+    entrypoint: /bin/bash
+    command:
+      - -c
+      - |
+        airflow db init
+        airflow users create \
+          --username admin \
+          --firstname Admin \
+          --lastname User \
+          --role Admin \
+          --email admin@example.com \
+          --password admin
+        echo "Airflow initialized successfully!"
+    restart: "no"
+
+  airflow-webserver:
+    <<: *airflow-common
+    container_name: garmin_airflow_webserver
+    command: webserver
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+
+  airflow-scheduler:
+    <<: *airflow-common
+    container_name: garmin_airflow_scheduler
+    command: scheduler
+    healthcheck:
+      test: ["CMD-SHELL", "airflow jobs check --job-type SchedulerJob --hostname $(hostname)"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+
+volumes:
+  garmin_pgdata:
+    driver: local
+  airflow_garmin_session:
+    driver: local
+
+networks:
+  garmin_network:
+    driver: bridge

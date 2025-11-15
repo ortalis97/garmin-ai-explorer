@@ -6,14 +6,14 @@ import streamlit as st
 import sys
 from pathlib import Path
 from datetime import date, timedelta
-import duckdb
 import pandas as pd
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
-from src.ai_explorer import ask_with_chart, initialize_duckdb, DATA_LAKE
+from src.ai_explorer import ask_with_chart, ConversationTurn
 from src.visualization import render_chart
+from src.database import get_table_stats, check_connection
 
 # Garmin brand colors
 GARMIN_BLUE = "#007CC3"
@@ -134,72 +134,19 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 
-def get_data_lake_stats():
-    """Get statistics about the data lake."""
+def get_data_stats():
+    """Get statistics from the PostgreSQL database."""
     try:
-        con = duckdb.connect(database=":memory:")
-        
-        stats = {}
-        
-        # Check activities
-        activities_path = DATA_LAKE / "activities" / "year=*" / "month=*" / "*.parquet"
-        if list(DATA_LAKE.glob("activities/year=*/month=*/*.parquet")):
-            result = con.execute(f"""
-                SELECT 
-                    COUNT(*) as count,
-                    MIN(date) as min_date,
-                    MAX(date) as max_date
-                FROM read_parquet('{activities_path}')
-            """).fetchone()
-            if result:
-                stats['activities'] = {
-                    'count': result[0],
-                    'min_date': result[1],
-                    'max_date': result[2]
-                }
-        
-        # Check sleep
-        sleep_path = DATA_LAKE / "sleep" / "year=*" / "month=*" / "*.parquet"
-        if list(DATA_LAKE.glob("sleep/year=*/month=*/*.parquet")):
-            result = con.execute(f"""
-                SELECT 
-                    COUNT(*) as count,
-                    MIN(date) as min_date,
-                    MAX(date) as max_date
-                FROM read_parquet('{sleep_path}')
-            """).fetchone()
-            if result:
-                stats['sleep'] = {
-                    'count': result[0],
-                    'min_date': result[1],
-                    'max_date': result[2]
-                }
-        
-        # Check daily summary
-        daily_path = DATA_LAKE / "daily_summary" / "year=*" / "month=*" / "*.parquet"
-        if list(DATA_LAKE.glob("daily_summary/year=*/month=*/*.parquet")):
-            result = con.execute(f"""
-                SELECT 
-                    COUNT(*) as count,
-                    MIN(date) as min_date,
-                    MAX(date) as max_date
-                FROM read_parquet('{daily_path}')
-            """).fetchone()
-            if result:
-                stats['daily_summary'] = {
-                    'count': result[0],
-                    'min_date': result[1],
-                    'max_date': result[2]
-                }
-        
-        return stats
+        if not check_connection():
+            return None
+        return get_table_stats()
     except Exception as e:
-        st.error(f"Error loading data lake stats: {e}")
+        st.error(f"Error loading database stats: {e}")
         return {}
 
 
 def render_sidebar():
-    """Render the sidebar with data lake stats and info."""
+    """Render the sidebar with database stats and info."""
     with st.sidebar:
         st.markdown(f"""
         <div style='text-align: center; padding: 1rem 0;'>
@@ -210,23 +157,29 @@ def render_sidebar():
         
         st.markdown("---")
         
-        # Data Lake Stats
-        st.subheader("📊 Data Lake")
+        # Database Stats
+        st.subheader("📊 Database")
         
         with st.spinner("Loading stats..."):
-            stats = get_data_lake_stats()
+            stats = get_data_stats()
         
-        if not stats:
+        if stats is None:
+            st.error("Cannot connect to PostgreSQL")
+            st.code("docker-compose up -d", language="bash")
+            st.caption("Then run the backfill:")
+            st.code("python -m src.backfill", language="bash")
+        elif not stats or all(s.get('count', 0) == 0 for s in stats.values()):
             st.warning("No data found. Run the backfill script first!")
             st.code("python -m src.backfill", language="bash")
         else:
             for entity, data in stats.items():
-                st.markdown(f"""
-                <div class='stat-card'>
-                    <p class='stat-value'>{data['count']:,}</p>
-                    <p class='stat-label'>{entity.replace('_', ' ').title()}</p>
-                </div>
-                """, unsafe_allow_html=True)
+                if data.get('count', 0) > 0:
+                    st.markdown(f"""
+                    <div class='stat-card'>
+                        <p class='stat-value'>{data['count']:,}</p>
+                        <p class='stat-label'>{entity.replace('_', ' ').title()}</p>
+                    </div>
+                    """, unsafe_allow_html=True)
             
             # Show date range
             all_dates = []
@@ -260,9 +213,20 @@ def render_sidebar():
         
         st.markdown("---")
         
-        # Clear chat button
-        if st.button("🗑️ Clear Chat", use_container_width=True):
+        # Conversation context indicator
+        if "conversation_history" in st.session_state and len(st.session_state.conversation_history) > 0:
+            turn_count = len(st.session_state.conversation_history)
+            st.markdown(f"""
+            <div style='background-color: #E8F4FD; padding: 0.5rem; border-radius: 5px; margin-bottom: 0.5rem; border-left: 3px solid {GARMIN_TEAL};'>
+                <span style='font-size: 0.85rem; color: #333;'>💬 <strong>Conversation active</strong></span><br/>
+                <span style='font-size: 0.75rem; color: #666;'>{turn_count} turn{"s" if turn_count > 1 else ""} — follow-up questions use context</span>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        # New Conversation button
+        if st.button("✨ New Conversation", use_container_width=True):
             st.session_state.messages = []
+            st.session_state.conversation_history = []
             st.rerun()
 
 
@@ -272,6 +236,10 @@ def main():
     # Initialize session state
     if "messages" not in st.session_state:
         st.session_state.messages = []
+    
+    # Initialize conversation history for LLM context
+    if "conversation_history" not in st.session_state:
+        st.session_state.conversation_history = []
     
     # Render sidebar
     render_sidebar()
@@ -320,8 +288,14 @@ def main():
         with st.chat_message("assistant"):
             with st.spinner("Thinking..."):
                 try:
-                    # Get response with chart (may use different data for visualization)
-                    sql, df, summary, chart_spec, viz_df = ask_with_chart(question)
+                    # Get response with chart (with conversation context)
+                    sql, df, summary, chart_spec, viz_df, conv_turn = ask_with_chart(
+                        question, 
+                        conversation_history=st.session_state.conversation_history
+                    )
+                    
+                    # Update conversation history for next question
+                    st.session_state.conversation_history.append(conv_turn)
                     
                     # Show SQL
                     with st.expander("🔍 SQL Query", expanded=False):
@@ -379,8 +353,14 @@ def main():
         with st.chat_message("assistant"):
             with st.spinner("Thinking..."):
                 try:
-                    # Get response with chart (may use different data for visualization)
-                    sql, df, summary, chart_spec, viz_df = ask_with_chart(prompt)
+                    # Get response with chart (with conversation context)
+                    sql, df, summary, chart_spec, viz_df, conv_turn = ask_with_chart(
+                        prompt,
+                        conversation_history=st.session_state.conversation_history
+                    )
+                    
+                    # Update conversation history for next question
+                    st.session_state.conversation_history.append(conv_turn)
                     
                     # Show SQL
                     with st.expander("🔍 SQL Query", expanded=False):

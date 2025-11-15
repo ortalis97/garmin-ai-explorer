@@ -1,9 +1,10 @@
 # Core dependencies
 garminconnect==0.2.8
-duckdb==1.1.3
 pandas==2.2.3
-pyarrow==18.1.0
 tabulate==0.9.0
+
+# PostgreSQL
+psycopg2-binary>=2.9.9
 
 # Web app
 streamlit==1.40.1
@@ -14,3 +15,7 @@ google-generativeai==0.8.3
 
 # Environment & utilities
 python-dotenv==1.0.1
+
+# Airflow (for local development/testing outside Docker)
+# Note: In Docker, Airflow is provided by the official image
+apache-airflow==2.8.1

@@ -5,8 +5,8 @@ Natural language question -> SQL query -> Results -> Insights
 import sys
 import json
 from pathlib import Path
-from typing import Tuple, Dict, Any, Optional
-import duckdb
+from typing import Tuple, Dict, Any, Optional, List
+from dataclasses import dataclass, field, asdict
 import pandas as pd
 from dotenv import load_dotenv
 
@@ -14,128 +14,214 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from .llm_client import create_llm_client
+from .database import execute_query, check_connection
 
 
-# Data lake root
-DATA_LAKE = Path(__file__).parent.parent / "data_lake" / "garmin"
+@dataclass
+class ConversationTurn:
+    """
+    Represents a single turn in the conversation history.
+    Contains the question, answer, and metadata needed for context.
+    """
+    question: str
+    sql: str
+    summary: str
+    columns: List[str] = field(default_factory=list)
+    row_count: int = 0
+    sample_data: Optional[str] = None  # First few rows as markdown, for detailed follow-ups
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert to dictionary for JSON serialization."""
+        return asdict(self)
+    
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> 'ConversationTurn':
+        """Create from dictionary."""
+        return cls(**data)
+    
+    @classmethod
+    def from_response(cls, question: str, sql: str, summary: str, df: pd.DataFrame, include_sample: bool = True) -> 'ConversationTurn':
+        """
+        Create a ConversationTurn from a query response.
+        
+        Args:
+            question: The user's question
+            sql: The SQL query that was executed
+            summary: The LLM-generated summary
+            df: The result DataFrame
+            include_sample: Whether to include sample data (first 5 rows as markdown)
+        """
+        sample_data = None
+        if include_sample and not df.empty:
+            sample_data = df.head(5).to_markdown(index=False)
+        
+        return cls(
+            question=question,
+            sql=sql,
+            summary=summary,
+            columns=list(df.columns) if not df.empty else [],
+            row_count=len(df),
+            sample_data=sample_data
+        )
+
+
+def format_conversation_context(history: List[ConversationTurn], include_sample_data: bool = False) -> str:
+    """
+    Format conversation history for inclusion in LLM prompts.
+    
+    Args:
+        history: List of previous conversation turns
+        include_sample_data: Whether to include sample data from previous queries
+    
+    Returns:
+        Formatted string describing the conversation history
+    """
+    if not history:
+        return ""
+    
+    context_parts = ["## Previous Conversation Context\n"]
+    
+    for i, turn in enumerate(history, 1):
+        context_parts.append(f"### Turn {i}")
+        context_parts.append(f"**User asked:** {turn.question}")
+        context_parts.append(f"**SQL used:** `{turn.sql[:200]}{'...' if len(turn.sql) > 200 else ''}`")
+        context_parts.append(f"**Result:** {turn.row_count} rows with columns: {', '.join(turn.columns)}")
+        context_parts.append(f"**Summary:** {turn.summary[:300]}{'...' if len(turn.summary) > 300 else ''}")
+        
+        if include_sample_data and turn.sample_data:
+            context_parts.append(f"**Sample data:**\n{turn.sample_data}")
+        
+        context_parts.append("")  # Empty line between turns
+    
+    return "\n".join(context_parts)
+
+
+def needs_detailed_context(question: str) -> bool:
+    """
+    Determine if the follow-up question needs detailed data from previous queries.
+    
+    Args:
+        question: The current user question
+    
+    Returns:
+        True if the question likely needs access to previous raw data
+    """
+    # Keywords that suggest the user wants to reference previous data directly
+    detail_keywords = [
+        # Referencing previous results
+        "those", "that", "these", "the data", "the results", "show me",
+        "filter", "sort", "group", "breakdown", "break down", "by month",
+        "by week", "by day", "more detail", "drill down", "zoom in",
+        "which ones", "what about", "same", "similar", "like before",
+        # Explicitly asking for raw/actual data
+        "raw data", "actual data", "the numbers", "actual numbers",
+        "exact", "specific", "details", "all the", "full data",
+        "underlying", "source data",
+        # Visualization/chart requests (need data context)
+        "chart", "graph", "plot", "diagram", "visualize", "visualise",
+        "show as", "display as", "draw", "create a", "make a",
+        "bar chart", "line chart", "pie chart", "scatter"
+    ]
+    
+    question_lower = question.lower()
+    return any(keyword in question_lower for keyword in detail_keywords)
 
 
 # Schema description for the LLM
 SCHEMA_DESCRIPTION = """
-Available tables in DuckDB:
+Available tables in PostgreSQL:
 
 1. **activities** - One row per workout/activity
    Columns:
-   - activity_id (string): Unique activity ID
-   - source (string): Always 'garmin'
+   - activity_id (varchar): Unique activity ID
+   - source (varchar): Always 'garmin'
    - start_time_utc (timestamp): When activity started
    - date (date): Activity date
-   - activity_type (string): e.g., 'running', 'cycling', 'strength_training'
-   - activity_name (string): Name given to the activity
-   - distance_km (float): Distance in kilometers
-   - duration_min (float): Total duration in minutes
-   - moving_time_min (float): Time actually moving
-   - avg_hr (float): Average heart rate (bpm)
-   - max_hr (float): Maximum heart rate (bpm)
-   - elevation_gain_m (float): Elevation gain in meters
-   - avg_speed_kmh (float): Average speed in km/h
-   - calories (float): Calories burned
+   - activity_type (varchar): e.g., 'running', 'cycling', 'strength_training'
+   - activity_name (varchar): Name given to the activity
+   - distance_km (real): Distance in kilometers
+   - duration_min (real): Total duration in minutes
+   - moving_time_min (real): Time actually moving
+   - avg_hr (real): Average heart rate (bpm)
+   - max_hr (real): Maximum heart rate (bpm)
+   - elevation_gain_m (real): Elevation gain in meters
+   - avg_speed_kmh (real): Average speed in km/h
+   - calories (real): Calories burned
 
 2. **sleep** - One row per night's sleep
    Columns:
    - date (date): Date of the sleep (usually the morning you woke up)
    - sleep_start (timestamp): When you went to sleep
    - sleep_end (timestamp): When you woke up
-   - sleep_duration_minutes (float): Total sleep time
-   - deep_sleep_minutes (float): Deep sleep duration
-   - light_sleep_minutes (float): Light sleep duration
-   - rem_sleep_minutes (float): REM sleep duration
-   - awake_minutes (float): Time awake during the night
-   - sleep_score (float): Overall sleep score (0-100)
-   - avg_hr (float): Average heart rate during sleep
-   - lowest_hr (float): Lowest heart rate during sleep
-   - avg_respiration (float): Average respiration rate
+   - sleep_duration_minutes (real): Total sleep time
+   - deep_sleep_minutes (real): Deep sleep duration
+   - light_sleep_minutes (real): Light sleep duration
+   - rem_sleep_minutes (real): REM sleep duration
+   - awake_minutes (real): Time awake during the night
+   - sleep_score (real): Overall sleep score (0-100)
+   - avg_hr (real): Average heart rate during sleep
+   - lowest_hr (real): Lowest heart rate during sleep
+   - avg_respiration (real): Average respiration rate
 
 3. **daily_summary** - One row per day with wellness metrics
    Columns:
    - date (date): The date
-   - steps (int): Total steps
-   - calories (float): Active calories burned
-   - resting_hr (float): Resting heart rate for the day
-   - min_hr (float): Minimum heart rate
-   - max_hr (float): Maximum heart rate
-   - stress_avg (float): Average stress level
-   - body_battery_charged (float): Body battery charged amount
-   - body_battery_drained (float): Body battery drained amount
-   - body_battery_highest (float): Highest body battery level
-   - body_battery_lowest (float): Lowest body battery level
-   - floors_climbed (int): Floors climbed
-   - distance_km (float): Total distance in km
+   - steps (integer): Total steps
+   - calories (real): Active calories burned
+   - resting_hr (real): Resting heart rate for the day
+   - min_hr (real): Minimum heart rate
+   - max_hr (real): Maximum heart rate
+   - stress_avg (real): Average stress level
+   - body_battery_charged (real): Body battery charged amount
+   - body_battery_drained (real): Body battery drained amount
+   - body_battery_highest (real): Highest body battery level
+   - body_battery_lowest (real): Lowest body battery level
+   - floors_climbed (integer): Floors climbed
+   - distance_km (real): Total distance in km
 
 Notes:
-- Use DuckDB SQL syntax
-- Date functions: CURRENT_DATE, date - INTERVAL '30 days', etc.
+- Use PostgreSQL syntax
+- Date functions: CURRENT_DATE, date - INTERVAL '30 days', DATE_TRUNC(), EXTRACT(), etc.
 - Aggregations: AVG(), SUM(), COUNT(), etc.
 - Window functions are supported
+- Use single quotes for string literals
 """
 
 
-def initialize_duckdb() -> duckdb.DuckDBPyConnection:
-    """
-    Initialize DuckDB connection with views over the Parquet data lake.
-    """
-    con = duckdb.connect(database=":memory:")
-    
-    # Create views for each entity
-    activities_path = DATA_LAKE / "activities" / "year=*" / "month=*" / "*.parquet"
-    sleep_path = DATA_LAKE / "sleep" / "year=*" / "month=*" / "*.parquet"
-    daily_path = DATA_LAKE / "daily_summary" / "year=*" / "month=*" / "*.parquet"
-    
-    # Check if data exists before creating views
-    if list(DATA_LAKE.glob("activities/year=*/month=*/*.parquet")):
-        con.execute(f"""
-            CREATE OR REPLACE VIEW activities AS
-            SELECT * FROM read_parquet('{activities_path}')
-        """)
-    else:
-        print("Warning: No activities data found")
-    
-    if list(DATA_LAKE.glob("sleep/year=*/month=*/*.parquet")):
-        con.execute(f"""
-            CREATE OR REPLACE VIEW sleep AS
-            SELECT * FROM read_parquet('{sleep_path}')
-        """)
-    else:
-        print("Warning: No sleep data found")
-    
-    if list(DATA_LAKE.glob("daily_summary/year=*/month=*/*.parquet")):
-        con.execute(f"""
-            CREATE OR REPLACE VIEW daily_summary AS
-            SELECT * FROM read_parquet('{daily_path}')
-        """)
-    else:
-        print("Warning: No daily_summary data found")
-    
-    return con
-
-
-def question_to_sql(question: str, llm_client) -> str:
+def question_to_sql(question: str, llm_client, conversation_history: List[ConversationTurn] = None) -> str:
     """
     Convert a natural language question to SQL using an LLM.
+    
+    Args:
+        question: The user's natural language question
+        llm_client: LLM client instance
+        conversation_history: Optional list of previous conversation turns for context
+    
+    Returns:
+        SQL query string
     """
-    prompt = f"""You are an expert SQL assistant. Your job is to write a DuckDB SQL query that answers the user's question.
+    # Build conversation context if we have history
+    context_section = ""
+    if conversation_history:
+        # Check if we need detailed data for this follow-up
+        include_sample = needs_detailed_context(question)
+        context_section = format_conversation_context(conversation_history, include_sample_data=include_sample)
+        context_section += "\n\n**Important:** The user may be asking a follow-up question. Consider the previous queries and results when writing the new query. You may need to modify, filter, or build upon previous queries.\n\n"
+    
+    prompt = f"""You are an expert SQL assistant. Your job is to write a PostgreSQL query that answers the user's question.
 
 {SCHEMA_DESCRIPTION}
 
-User question: "{question}"
+{context_section}User question: "{question}"
 
 Instructions:
 - Write a single SELECT query that answers the question
-- Use proper DuckDB syntax
+- Use proper PostgreSQL syntax
 - Return ONLY the SQL query, no explanation, no markdown, no code blocks
 - Do not include semicolons at the end
 - Use appropriate JOINs if multiple tables are needed
 - Add LIMIT clauses for large result sets when appropriate
+{f"- This is a follow-up question. Consider the context of previous queries and results." if conversation_history else ""}
 
 SQL Query:"""
     
@@ -152,19 +238,29 @@ SQL Query:"""
     return sql
 
 
-def run_sql(con: duckdb.DuckDBPyConnection, sql: str) -> pd.DataFrame:
+def run_sql(sql: str) -> pd.DataFrame:
     """
     Execute SQL query and return results as DataFrame.
     """
     try:
-        return con.execute(sql).df()
+        return execute_query(sql)
     except Exception as e:
         raise RuntimeError(f"SQL execution failed: {e}\n\nQuery:\n{sql}")
 
 
-def summarize_results(question: str, sql: str, df: pd.DataFrame, llm_client) -> str:
+def summarize_results(question: str, sql: str, df: pd.DataFrame, llm_client, conversation_history: List[ConversationTurn] = None) -> str:
     """
     Use LLM to summarize query results and provide insights.
+    
+    Args:
+        question: The user's question
+        sql: The SQL query that was executed
+        df: The result DataFrame
+        llm_client: LLM client instance
+        conversation_history: Optional list of previous conversation turns for context
+    
+    Returns:
+        Summary text with insights
     """
     # Format results as markdown table (limit to first 50 rows for context)
     if df.empty:
@@ -174,9 +270,18 @@ def summarize_results(question: str, sql: str, df: pd.DataFrame, llm_client) -> 
         if len(df) > 50:
             results_preview += f"\n\n... ({len(df)} total rows)"
     
+    # Build conversation context section
+    context_section = ""
+    if conversation_history:
+        context_parts = ["## Previous Conversation\n"]
+        for i, turn in enumerate(conversation_history[-3:], 1):  # Last 3 turns for summary context
+            context_parts.append(f"**Q{i}:** {turn.question}")
+            context_parts.append(f"**A{i}:** {turn.summary[:200]}{'...' if len(turn.summary) > 200 else ''}\n")
+        context_section = "\n".join(context_parts) + "\n"
+    
     prompt = f"""You are a fitness data analyst. Answer the user's question based on the query results.
 
-User's question: "{question}"
+{context_section}User's question: "{question}"
 
 Query results:
 {results_preview}
@@ -188,7 +293,8 @@ Instructions:
 - Use **bold** for important metrics, numbers, and key terms
 - Be concise and encouraging
 - Do NOT use section titles like "Answer:" or "Insights:"
-- Do NOT provide actionable recommendations"""
+- Do NOT provide actionable recommendations
+{f"- This is a follow-up question. You may reference previous answers when relevant, but focus on answering the current question." if conversation_history else ""}"""
     
     summary = llm_client.generate(prompt, temperature=0.3)
     return summary
@@ -236,7 +342,7 @@ Task: Suggest the BEST data to visualize for this answer. This might be:
 Return a JSON object:
 {{
   "use_same_query": true/false,
-  "new_sql": "SQL query to get visualization data (only if use_same_query is false)",
+  "new_sql": "PostgreSQL query to get visualization data (only if use_same_query is false)",
   "suggested_chart_type": "line|bar|scatter|pie",
   "reasoning": "Brief explanation of what to visualize and why"
 }}
@@ -400,9 +506,12 @@ def ask(question: str, verbose: bool = True) -> Tuple[str, pd.DataFrame, str]:
     if verbose:
         print(f"\n🤔 Question: {question}\n")
     
+    # Check database connection
+    if not check_connection():
+        raise RuntimeError("Cannot connect to PostgreSQL. Make sure Docker is running: docker-compose up -d")
+    
     # Initialize
     llm_client = create_llm_client("gemini")
-    con = initialize_duckdb()
     
     # Generate SQL
     if verbose:
@@ -414,7 +523,7 @@ def ask(question: str, verbose: bool = True) -> Tuple[str, pd.DataFrame, str]:
     # Execute query
     if verbose:
         print("📊 Executing query...")
-    df = run_sql(con, sql)
+    df = run_sql(sql)
     if verbose:
         print(f"✓ Retrieved {len(df)} rows\n")
     
@@ -431,27 +540,37 @@ def ask(question: str, verbose: bool = True) -> Tuple[str, pd.DataFrame, str]:
     return sql, df, summary
 
 
-def ask_with_chart(question: str, verbose: bool = False) -> Tuple[str, pd.DataFrame, str, Dict[str, Any], pd.DataFrame]:
+def ask_with_chart(
+    question: str, 
+    conversation_history: List[ConversationTurn] = None,
+    verbose: bool = False
+) -> Tuple[str, pd.DataFrame, str, Dict[str, Any], pd.DataFrame, ConversationTurn]:
     """
     Ask a question and get SQL, results, insights, AND a chart specification.
     Optimized for use in web interfaces. May generate a separate query for visualization.
+    Supports conversational context through conversation_history.
     
     Args:
         question: Natural language question about Garmin data
+        conversation_history: Optional list of previous conversation turns for context
         verbose: Whether to print intermediate steps
     
     Returns:
-        Tuple of (sql_query, results_dataframe, summary_text, chart_spec, viz_dataframe)
+        Tuple of (sql_query, results_dataframe, summary_text, chart_spec, viz_dataframe, conversation_turn)
+        The conversation_turn can be appended to conversation_history for the next question.
     """
+    # Check database connection
+    if not check_connection():
+        raise RuntimeError("Cannot connect to PostgreSQL. Make sure Docker is running: docker-compose up -d")
+    
     # Initialize
     llm_client = create_llm_client("gemini")
-    con = initialize_duckdb()
     
-    # Generate SQL for the answer
-    answer_sql = question_to_sql(question, llm_client)
+    # Generate SQL for the answer (with conversation context)
+    answer_sql = question_to_sql(question, llm_client, conversation_history)
     
     # Execute answer query
-    answer_df = run_sql(con, answer_sql)
+    answer_df = run_sql(answer_sql)
     
     # Determine best data to visualize (may generate a new query)
     viz_sql, suggested_chart_type = generate_visualization_query(
@@ -461,7 +580,7 @@ def ask_with_chart(question: str, verbose: bool = False) -> Tuple[str, pd.DataFr
     # Get visualization data (might be different from answer data)
     if viz_sql != answer_sql:
         try:
-            viz_df = run_sql(con, viz_sql)
+            viz_df = run_sql(viz_sql)
             if verbose:
                 print(f"Using separate visualization query")
         except Exception as e:
@@ -476,11 +595,20 @@ def ask_with_chart(question: str, verbose: bool = False) -> Tuple[str, pd.DataFr
         question, viz_sql, viz_df, llm_client, suggested_chart_type
     )
     
-    # Generate insights based on answer data
-    summary = summarize_results(question, answer_sql, answer_df, llm_client)
+    # Generate insights based on answer data (with conversation context)
+    summary = summarize_results(question, answer_sql, answer_df, llm_client, conversation_history)
     
-    # Return answer data and viz data separately
-    return answer_sql, answer_df, summary, chart_spec, viz_df
+    # Create conversation turn for this response
+    conversation_turn = ConversationTurn.from_response(
+        question=question,
+        sql=answer_sql,
+        summary=summary,
+        df=answer_df,
+        include_sample=True  # Always include sample for potential follow-ups
+    )
+    
+    # Return answer data, viz data, and conversation turn
+    return answer_sql, answer_df, summary, chart_spec, viz_df, conversation_turn
 
 
 def main():

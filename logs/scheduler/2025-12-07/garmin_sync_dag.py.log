@@ -1,0 +1,820 @@
+[2025-12-07T15:17:10.528+0000] {processor.py:161} INFO - Started process (PID=172) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:17:10.529+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:17:10.529+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:17:10.529+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:17:11.085+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:17:11.073+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:17:11.085+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:17:11.095+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.569 seconds
+[2025-12-07T15:17:41.360+0000] {processor.py:161} INFO - Started process (PID=186) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:17:41.361+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:17:41.362+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:17:41.362+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:17:41.488+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:17:41.484+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:17:41.488+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:17:41.496+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.139 seconds
+[2025-12-07T15:18:11.619+0000] {processor.py:161} INFO - Started process (PID=200) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:18:11.620+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:18:11.620+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:18:11.620+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:18:11.727+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:18:11.723+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:18:11.727+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:18:11.735+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.117 seconds
+[2025-12-07T15:18:41.960+0000] {processor.py:161} INFO - Started process (PID=214) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:18:41.960+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:18:41.961+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:18:41.961+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:18:42.087+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:18:42.084+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:18:42.087+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:18:42.095+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.138 seconds
+[2025-12-07T15:19:12.256+0000] {processor.py:161} INFO - Started process (PID=228) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:19:12.257+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:19:12.257+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:19:12.257+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:19:12.386+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:19:12.382+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:19:12.386+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:19:12.393+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.140 seconds
+[2025-12-07T15:19:42.575+0000] {processor.py:161} INFO - Started process (PID=242) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:19:42.575+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:19:42.576+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:19:42.576+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:19:42.702+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:19:42.698+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:19:42.703+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:19:42.710+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.138 seconds
+[2025-12-07T15:20:12.810+0000] {processor.py:161} INFO - Started process (PID=256) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:20:12.811+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:20:12.811+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:20:12.811+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:20:12.937+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:20:12.933+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:20:12.937+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:20:12.944+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.137 seconds
+[2025-12-07T15:20:43.164+0000] {processor.py:161} INFO - Started process (PID=270) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:20:43.165+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:20:43.165+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:20:43.165+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:20:43.282+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:20:43.279+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:20:43.283+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:20:43.290+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.127 seconds
+[2025-12-07T15:21:13.407+0000] {processor.py:161} INFO - Started process (PID=284) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:21:13.408+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:21:13.408+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:21:13.408+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:21:13.562+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:21:13.538+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:21:13.562+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:21:13.570+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.164 seconds
+[2025-12-07T15:21:43.802+0000] {processor.py:161} INFO - Started process (PID=290) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:21:43.803+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:21:43.803+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:21:43.803+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:21:43.929+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:21:43.925+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:21:43.929+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:21:43.937+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.138 seconds
+[2025-12-07T15:22:14.077+0000] {processor.py:161} INFO - Started process (PID=304) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:22:14.078+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:22:14.078+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:22:14.078+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:22:14.204+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:22:14.200+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:22:14.204+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:22:14.211+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.135 seconds
+[2025-12-07T15:22:44.419+0000] {processor.py:161} INFO - Started process (PID=318) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:22:44.420+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:22:44.420+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:22:44.420+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:22:44.547+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:22:44.542+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:22:44.547+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:22:44.555+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.138 seconds
+[2025-12-07T15:23:14.707+0000] {processor.py:161} INFO - Started process (PID=332) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:23:14.708+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:23:14.708+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:23:14.708+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:23:14.838+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:23:14.835+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:23:14.838+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:23:14.847+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.142 seconds
+[2025-12-07T15:23:45.037+0000] {processor.py:161} INFO - Started process (PID=346) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:23:45.037+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:23:45.038+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:23:45.038+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:23:45.167+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:23:45.164+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:23:45.168+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:23:45.175+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.141 seconds
+[2025-12-07T15:24:15.342+0000] {processor.py:161} INFO - Started process (PID=360) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:24:15.342+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:24:15.343+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:24:15.343+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:24:15.467+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:24:15.464+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:24:15.467+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:24:15.475+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.135 seconds
+[2025-12-07T15:24:45.647+0000] {processor.py:161} INFO - Started process (PID=374) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:24:45.647+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:24:45.648+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:24:45.648+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:24:45.782+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:24:45.779+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:24:45.782+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:24:45.790+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.146 seconds
+[2025-12-07T15:25:15.926+0000] {processor.py:161} INFO - Started process (PID=388) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:25:15.927+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:25:15.927+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:25:15.927+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:25:16.055+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:25:16.053+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:25:16.056+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:25:16.064+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.141 seconds
+[2025-12-07T15:25:46.215+0000] {processor.py:161} INFO - Started process (PID=402) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:25:46.215+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:25:46.216+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:25:46.215+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:25:46.324+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:25:46.320+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:25:46.324+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:25:46.332+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.118 seconds
+[2025-12-07T15:26:16.542+0000] {processor.py:161} INFO - Started process (PID=416) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:26:16.543+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:26:16.544+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:26:16.543+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:26:16.667+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:26:16.663+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:26:16.667+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:26:16.675+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.135 seconds
+[2025-12-07T15:26:46.854+0000] {processor.py:161} INFO - Started process (PID=430) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:26:46.855+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:26:46.856+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:26:46.856+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:26:46.985+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:26:46.981+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:26:46.985+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:26:46.993+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.141 seconds
+[2025-12-07T15:27:17.205+0000] {processor.py:161} INFO - Started process (PID=444) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:27:17.206+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:27:17.206+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:27:17.206+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:27:17.338+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:27:17.335+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:27:17.338+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:27:17.346+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.143 seconds
+[2025-12-07T15:27:47.498+0000] {processor.py:161} INFO - Started process (PID=458) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:27:47.498+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:27:47.499+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:27:47.499+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:27:47.628+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:27:47.625+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:27:47.628+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:27:47.636+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.141 seconds
+[2025-12-07T15:28:17.860+0000] {processor.py:161} INFO - Started process (PID=472) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:28:17.860+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:28:17.861+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:28:17.861+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:28:17.987+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:28:17.983+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:28:17.987+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:28:17.995+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.138 seconds
+[2025-12-07T15:28:48.144+0000] {processor.py:161} INFO - Started process (PID=486) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:28:48.144+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:28:48.145+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:28:48.145+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:28:48.280+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:28:48.276+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:28:48.281+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:28:48.290+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.148 seconds
+[2025-12-07T15:29:18.504+0000] {processor.py:161} INFO - Started process (PID=500) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:29:18.504+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:29:18.505+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:29:18.505+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:29:18.638+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:29:18.635+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:29:18.639+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:29:18.646+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.146 seconds
+[2025-12-07T15:29:48.814+0000] {processor.py:161} INFO - Started process (PID=514) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:29:48.815+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:29:48.816+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:29:48.816+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:29:48.947+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:29:48.944+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:29:48.948+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:29:48.955+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.144 seconds
+[2025-12-07T15:30:19.184+0000] {processor.py:161} INFO - Started process (PID=528) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:30:19.185+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:30:19.185+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:30:19.185+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:30:19.320+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:30:19.316+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:30:19.320+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:30:19.328+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.147 seconds
+[2025-12-07T15:30:49.418+0000] {processor.py:161} INFO - Started process (PID=542) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:30:49.418+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:30:49.419+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:30:49.419+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:30:49.558+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:30:49.555+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:30:49.558+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:30:49.568+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.152 seconds
+[2025-12-07T15:31:19.836+0000] {processor.py:161} INFO - Started process (PID=556) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:31:19.836+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:31:19.837+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:31:19.837+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:31:19.962+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:31:19.959+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:31:19.963+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:31:19.971+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.138 seconds
+[2025-12-07T15:31:50.152+0000] {processor.py:161} INFO - Started process (PID=570) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:31:50.153+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:31:50.153+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:31:50.153+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:31:50.284+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:31:50.281+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:31:50.284+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:31:50.292+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.144 seconds
+[2025-12-07T15:32:20.578+0000] {processor.py:161} INFO - Started process (PID=584) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:32:20.579+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:32:20.579+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:32:20.579+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:32:20.706+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:32:20.702+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:32:20.706+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:32:20.714+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.138 seconds
+[2025-12-07T15:32:50.860+0000] {processor.py:161} INFO - Started process (PID=598) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:32:50.861+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:32:50.862+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:32:50.861+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:32:51.014+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:32:51.010+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:32:51.014+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:32:51.022+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.164 seconds
+[2025-12-07T15:33:21.201+0000] {processor.py:161} INFO - Started process (PID=612) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:33:21.201+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:33:21.202+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:33:21.202+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:33:21.314+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:33:21.312+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:33:21.315+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:33:21.323+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.124 seconds
+[2025-12-07T15:33:51.549+0000] {processor.py:161} INFO - Started process (PID=626) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:33:51.549+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:33:51.550+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:33:51.550+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:33:51.682+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:33:51.679+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:33:51.683+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:33:51.691+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.145 seconds
+[2025-12-07T15:34:21.837+0000] {processor.py:161} INFO - Started process (PID=640) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:34:21.838+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:34:21.839+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:34:21.838+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:34:21.976+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:34:21.974+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:34:21.977+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:34:21.985+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.151 seconds
+[2025-12-07T15:34:52.204+0000] {processor.py:161} INFO - Started process (PID=654) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:34:52.205+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:34:52.206+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:34:52.205+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:34:52.332+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:34:52.330+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:34:52.332+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:34:52.340+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.141 seconds
+[2025-12-07T15:35:22.491+0000] {processor.py:161} INFO - Started process (PID=668) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:35:22.492+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:35:22.493+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:35:22.492+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:35:22.618+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:35:22.615+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:35:22.618+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:35:22.626+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.138 seconds
+[2025-12-07T15:35:52.795+0000] {processor.py:161} INFO - Started process (PID=682) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:35:52.796+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:35:52.797+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:35:52.796+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:35:52.975+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:35:52.946+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:35:52.975+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:35:52.984+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.191 seconds
+[2025-12-07T15:36:23.161+0000] {processor.py:161} INFO - Started process (PID=696) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:36:23.162+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:36:23.162+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:36:23.162+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:36:23.287+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:36:23.285+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:36:23.287+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:36:23.295+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.137 seconds
+[2025-12-07T15:36:53.500+0000] {processor.py:161} INFO - Started process (PID=710) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:36:53.501+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:36:53.502+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:36:53.502+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:36:53.625+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:36:53.622+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:36:53.625+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:36:53.634+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.135 seconds
+[2025-12-07T15:37:23.801+0000] {processor.py:161} INFO - Started process (PID=724) to work on /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:37:23.801+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/garmin_sync_dag.py for tasks to queue
+[2025-12-07T15:37:23.802+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:37:23.802+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:37:23.934+0000] {logging_mixin.py:188} INFO - [2025-12-07T15:37:23.931+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/garmin_sync_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/garmin_sync_dag.py", line 16, in <module>
+    from src.tasks import run_daily_sync, run_full_backfill
+  File "/opt/airflow/src/tasks.py", line 10, in <module>
+    from .daily_sync import sync_activities, sync_sleep, sync_daily_summary
+  File "/opt/airflow/src/daily_sync.py", line 14, in <module>
+    from .garmin_client import GarminClient
+  File "/opt/airflow/src/garmin_client.py", line 8, in <module>
+    from garminconnect import Garmin
+ModuleNotFoundError: No module named 'garminconnect'
+[2025-12-07T15:37:23.934+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/garmin_sync_dag.py
+[2025-12-07T15:37:23.942+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/garmin_sync_dag.py took 0.144 seconds

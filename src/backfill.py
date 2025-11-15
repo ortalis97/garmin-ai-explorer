@@ -1,23 +1,23 @@
 """
-Backfill script to fetch all historical Garmin data into the data lake.
+Backfill script to fetch all historical Garmin data into PostgreSQL.
 """
 import sys
 from datetime import date, datetime, timedelta
-from pathlib import Path
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any
 import pandas as pd
-import pyarrow as pa
-import pyarrow.parquet as pq
 from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
 
 from .garmin_client import GarminClient
-
-
-# Data lake root
-DATA_LAKE = Path(__file__).parent.parent / "data_lake" / "garmin"
+from .database import (
+    init_schema,
+    insert_activities,
+    insert_sleep,
+    insert_daily_summary,
+    check_connection
+)
 
 
 def normalize_activities(activities: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
@@ -159,35 +159,8 @@ def normalize_daily_stats(stats: Dict[str, Any], query_date: date) -> List[Dict[
         return []
 
 
-def write_partitioned_parquet(df: pd.DataFrame, entity: str, date_column: str = "date"):
-    """
-    Write a DataFrame to partitioned Parquet files by year/month.
-    """
-    if df.empty:
-        print(f"No data to write for {entity}")
-        return
-    
-    # Ensure date column is datetime
-    df[date_column] = pd.to_datetime(df[date_column])
-    df["year"] = df[date_column].dt.year
-    df["month"] = df[date_column].dt.month
-    
-    # Group by year/month and write
-    for (year, month), group in df.groupby(["year", "month"]):
-        out_dir = DATA_LAKE / entity / f"year={year}" / f"month={month:02d}"
-        out_dir.mkdir(parents=True, exist_ok=True)
-        
-        # Drop partition columns before writing
-        table = pa.Table.from_pandas(group.drop(columns=["year", "month"]))
-        
-        # Write with a unique filename
-        out_file = out_dir / f"part-{datetime.now().strftime('%Y%m%d-%H%M%S')}.parquet"
-        pq.write_table(table, out_file)
-        print(f"  Wrote {len(group)} rows to {out_file}")
-
-
 def backfill_activities():
-    """Fetch all activities and write to data lake."""
+    """Fetch all activities and write to database."""
     print("\n=== Backfilling Activities ===")
     gc = GarminClient()
     activities = gc.get_all_activities()
@@ -201,13 +174,12 @@ def backfill_activities():
         print("No activities to write after normalization")
         return
     
-    df = pd.DataFrame(rows)
-    write_partitioned_parquet(df, "activities", date_column="date")
-    print(f"✓ Wrote {len(df)} activities")
+    count = insert_activities(rows)
+    print(f"✓ Inserted {count} activities (total normalized: {len(rows)})")
 
 
 def backfill_sleep(start_date: date, end_date: date):
-    """Fetch sleep data for a date range and write to data lake."""
+    """Fetch sleep data for a date range and write to database."""
     print(f"\n=== Backfilling Sleep ({start_date} to {end_date}) ===")
     gc = GarminClient()
     
@@ -233,13 +205,12 @@ def backfill_sleep(start_date: date, end_date: date):
         print("No sleep data found")
         return
     
-    df = pd.DataFrame(all_rows)
-    write_partitioned_parquet(df, "sleep", date_column="date")
-    print(f"✓ Wrote {len(df)} sleep records")
+    count = insert_sleep(all_rows)
+    print(f"✓ Inserted {count} sleep records")
 
 
 def backfill_daily_summary(start_date: date, end_date: date):
-    """Fetch daily summary/stats for a date range and write to data lake."""
+    """Fetch daily summary/stats for a date range and write to database."""
     print(f"\n=== Backfilling Daily Summary ({start_date} to {end_date}) ===")
     gc = GarminClient()
     
@@ -265,16 +236,15 @@ def backfill_daily_summary(start_date: date, end_date: date):
         print("No daily summary data found")
         return
     
-    df = pd.DataFrame(all_rows)
-    write_partitioned_parquet(df, "daily_summary", date_column="date")
-    print(f"✓ Wrote {len(df)} daily summary records")
+    count = insert_daily_summary(all_rows)
+    print(f"✓ Inserted {count} daily summary records")
 
 
 def main():
     """Main backfill orchestration."""
     import argparse
     
-    parser = argparse.ArgumentParser(description="Backfill Garmin data to data lake")
+    parser = argparse.ArgumentParser(description="Backfill Garmin data to PostgreSQL database")
     parser.add_argument(
         "--start-date",
         type=str,
@@ -301,7 +271,17 @@ def main():
     
     print(f"Backfilling from {start_date} to {end_date}")
     print(f"Entities: {', '.join(args.entities)}")
-    print(f"Data lake: {DATA_LAKE}")
+    
+    # Check database connection
+    print("\nChecking database connection...")
+    if not check_connection():
+        print("✗ Cannot connect to PostgreSQL. Make sure Docker is running:")
+        print("  docker-compose up -d")
+        sys.exit(1)
+    print("✓ Database connection OK")
+    
+    # Initialize schema
+    init_schema()
     
     # Run backfills
     try:
