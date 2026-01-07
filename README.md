@@ -3,7 +3,10 @@
 A lean data engineering project that fetches your personal Garmin data into a PostgreSQL database and provides an **AI-powered web interface** to explore it with natural language questions and automatic visualizations.
 
 ## Quick Start
+# Short:
+cd garmin_data && docker-compose up -d && source venv/bin/activate && streamlit run web_app.py
 
+# Long:
 ```bash
 # 1. Start PostgreSQL with Docker
 cd garmin_data
@@ -101,6 +104,13 @@ python -m src.backfill --start-date 2020-01-01 --end-date 2025-11-15
 
 # Or backfill specific entities only
 python -m src.backfill --entities activities sleep
+
+# Backfill new health metrics
+python -m src.backfill --entities hrv training_readiness training_metrics
+
+# Available entities: activities, sleep, daily_summary, hrv, spo2, respiration,
+#   stress_details, heart_rate_zones, training_readiness, training_metrics,
+#   intensity_minutes, race_predictions
 ```
 
 This will:
@@ -135,6 +145,52 @@ One row per day with wellness metrics:
 - `resting_hr`, `min_hr`, `max_hr`
 - `stress_avg`, `body_battery_*`, `floors_climbed`, `distance_km`
 
+#### `hrv`
+One row per day with Heart Rate Variability:
+- `date`, `hrv_last_night`, `hrv_weekly_avg`
+- `hrv_status`, `baseline_low`, `baseline_high`
+
+#### `spo2`
+One row per day with blood oxygen saturation:
+- `date`, `avg_spo2`, `min_spo2`, `max_spo2`, `avg_sleep_spo2`
+
+#### `respiration`
+One row per day with breathing rate:
+- `date`, `avg_waking_respiration`, `avg_sleeping_respiration`
+- `highest_respiration`, `lowest_respiration`
+
+#### `stress_details`
+One row per day with detailed stress metrics:
+- `date`, `overall_stress_level`
+- `rest_stress_duration_sec`, `low_stress_duration_sec`
+- `medium_stress_duration_sec`, `high_stress_duration_sec`
+
+#### `heart_rate_zones`
+One row per day with time in HR zones:
+- `date`, `resting_hr`, `min_hr`, `max_hr`
+- `zone_1_seconds` through `zone_5_seconds`
+
+#### `training_readiness`
+One row per day with training readiness:
+- `date`, `readiness_score`, `readiness_level`
+- `hrv_status`, `sleep_score`, `recovery_time_hours`
+
+#### `training_metrics`
+One row per day with performance metrics:
+- `date`, `vo2_max`, `vo2_max_cycling`, `training_status`
+- `training_load_7_day`, `training_load_28_day`
+- `endurance_score`, `hill_score`, `fitness_age`
+
+#### `intensity_minutes`
+One row per day with activity intensity:
+- `date`, `moderate_minutes`, `vigorous_minutes`
+- `weekly_moderate_actual`, `weekly_vigorous_actual`
+
+#### `race_predictions`
+One row per day with predicted race times:
+- `date`, `predicted_5k_seconds`, `predicted_10k_seconds`
+- `predicted_half_marathon_seconds`, `predicted_marathon_seconds`
+
 ## Usage: Web App (Recommended) 🌐
 
 The easiest way to explore your data is through the **Streamlit web interface** with ChatGPT-style interactions and automatic data visualizations.
@@ -168,6 +224,12 @@ The app will open in your browser at `http://localhost:8501`
 - "How has my sleep quality changed over time?"
 - "Compare my cycling vs running performance"
 - "What's the correlation between my sleep and heart rate?"
+- "What's my HRV trend over the last month?"
+- "How does my training readiness correlate with sleep score?"
+- "Show my VO2 max progression this year"
+- "How much time do I spend in each HR zone per week?"
+- "What's my predicted marathon time based on recent training?"
+- "Compare my stress levels on workout days vs rest days"
 
 The web app automatically:
 1. Generates a SQL query from your question
@@ -429,6 +491,28 @@ elif provider.lower() == "openai":
 - Some data might not be available for all dates
 - Check the API response structure - Garmin occasionally changes their JSON format
 
+**Docker/Airflow sync failures (dependency version mismatch):**
+
+⚠️ **IMPORTANT**: The Garmin Connect API changes frequently, and outdated library versions in Docker will cause authentication failures. The local environment and Docker must use the **exact same versions** of critical packages.
+
+Check current versions:
+```bash
+# Local versions (should work)
+source venv/bin/activate && pip freeze | grep -E "^(garminconnect|garth|pydantic)="
+
+# Docker versions (must match local)
+docker-compose exec airflow-scheduler python3 -m pip show garminconnect garth pydantic | grep -E "^(Name|Version)"
+```
+
+If versions don't match:
+1. **Test locally first** - Run `python -m src.daily_sync` to confirm local sync works
+2. **Pin exact versions** - Update `_PIP_ADDITIONAL_REQUIREMENTS` in `docker-compose.yml` with the exact versions from your working local environment
+3. **Recreate containers** - Run `docker-compose up -d --force-recreate airflow-scheduler airflow-webserver`
+4. **Wait for packages** - Allow ~60 seconds for pip to install packages on container startup
+5. **Verify** - Check versions inside Docker match local
+
+**Never use `>=` for garminconnect/garth in Docker** - always pin exact versions to avoid unexpected breakage.
+
 ## Project Structure
 
 ```
@@ -455,8 +539,12 @@ garmin_data/
 
 ## Next Steps / Ideas
 
+- [x] Add heart rate zones data (time in each HR zone per day)
+- [x] Add HRV, training readiness, training metrics
+- [x] Add SpO2, respiration, stress details
+- [x] Add intensity minutes and race predictions
 - [ ] Build refined analytical tables (e.g., weekly rollups, trends)
-- [ ] Add heart rate time series data
+- [ ] Add activity-level enrichment (GPS tracks, splits, weather)
 - [ ] Add data quality checks and validation
 - [ ] Export insights to notion/obsidian for tracking
 
